@@ -1,4 +1,4 @@
-import { BeatsMarketplace, TestERC20__factory } from "../typechain-types";
+import { BeatsMarketplace, TestERC20__factory } from "../../typechain-types";
 import { ethers, upgrades } from "hardhat";
 import { randomHash } from "hardhat/internal/hardhat-network/provider/utils/random";
 import { expect } from "chai";
