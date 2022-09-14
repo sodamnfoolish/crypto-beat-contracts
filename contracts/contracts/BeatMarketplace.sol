@@ -11,7 +11,7 @@ struct Beat {
     bool onSold;
 }
 
-contract BeatsMarketplace is Initializable {
+contract BeatMarketplace is Initializable {
     IERC20 public _erc20;
     uint256 public _fee; // % fee
     mapping(bytes32 => Beat) public _beats; // bytes32 - beat id
