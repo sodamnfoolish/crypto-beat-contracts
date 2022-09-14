@@ -2,8 +2,8 @@ import { BeatMarketplace, TestERC20__factory } from "../typechain-types";
 import { ethers, upgrades } from "hardhat";
 import { randomHash } from "hardhat/internal/hardhat-network/provider/utils/random";
 import { expect } from "chai";
-import {calculateFee, randomFee, randomPrice, Signers} from "../helpers/BeatsMarketplace";
-import {getSigner} from "../helpers/ethers";
+import { calculateFee, randomFee, randomPrice, Signers } from "../helpers/BeatsMarketplace";
+import { getSigner } from "../helpers/ethers";
 
 describe("BeatMarketplace", async () => {
     const publishFixture = async () => {
