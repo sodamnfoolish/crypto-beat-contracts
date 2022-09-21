@@ -1,8 +1,5 @@
 {
-  "short_name": "BeatMarketplace",
-  "name": "BeatMarketplace",
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "short_name": "Beat Marketplace",
+  "name": "Beat Marketplace",
+  "start_url": "."
 }
