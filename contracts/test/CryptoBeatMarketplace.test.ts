@@ -1,8 +1,8 @@
 import {ethers} from "hardhat";
-import {TestERC20__factory, CryptoBeatERC721__factory, CryptoBeatMarketplace__factory} from "../typechain-types";
+import {TestERC20__factory, CryptoBeat__factory, CryptoBeatMarketplace__factory} from "../typechain-types";
 import {calculateFee, randomFee, randomPrice} from "../helpers/CryptoBeatMarketplace";
 import {BigNumber} from "ethers";
-import {randomTokenURISuffix} from "../helpers/CryptoBeatERC721";
+import {randomTokenURISuffix} from "../helpers/CryptoBeat";
 import {expect} from "chai";
 
 describe("CryptoBeatMarketplace", async () => {
@@ -11,18 +11,18 @@ describe("CryptoBeatMarketplace", async () => {
 
         const erc20 = await (await new TestERC20__factory(deployer).deploy()).deployed();
 
-        const cryptoBeatERC721 = await (await new CryptoBeatERC721__factory(deployer).deploy()).deployed();
+        const cryptoBeat = await (await new CryptoBeat__factory(deployer).deploy()).deployed();
 
         const fee = randomFee();
 
-        const cryptoBeatMarketplace = await (await new CryptoBeatMarketplace__factory(deployer).deploy(erc20.address, cryptoBeatERC721.address, fee)).deployed();
+        const cryptoBeatMarketplace = await (await new CryptoBeatMarketplace__factory(deployer).deploy(erc20.address, cryptoBeat.address, fee)).deployed();
 
         return {
             deployer,
             seller,
             buyer,
             erc20,
-            cryptoBeatERC721,
+            cryptoBeat,
             fee,
             cryptoBeatMarketplace
         };
@@ -32,25 +32,25 @@ describe("CryptoBeatMarketplace", async () => {
         it("Should sell", async () => {
             const {
                 seller,
-                cryptoBeatERC721,
+                cryptoBeat,
                 cryptoBeatMarketplace
             } = await fixture();
 
-            const cryptoBeatId = await cryptoBeatERC721.connect(seller).callStatic.mint(randomTokenURISuffix());
-            await cryptoBeatERC721.connect(seller).mint(randomTokenURISuffix());
+            const cryptoBeatId = await cryptoBeat.connect(seller).callStatic.mint(randomTokenURISuffix());
+            await cryptoBeat.connect(seller).mint(randomTokenURISuffix());
 
-            await cryptoBeatERC721.connect(seller).approve(cryptoBeatMarketplace.address, cryptoBeatId)
+            await cryptoBeat.connect(seller).approve(cryptoBeatMarketplace.address, cryptoBeatId)
 
             const cryptoBeatPrice = randomPrice();
 
             await cryptoBeatMarketplace.connect(seller).sell(cryptoBeatId, cryptoBeatPrice);
 
-            expect(await cryptoBeatERC721.ownerOf(cryptoBeatId)).eq(cryptoBeatMarketplace.address);
+            expect(await cryptoBeat.ownerOf(cryptoBeatId)).eq(cryptoBeatMarketplace.address);
 
-            const cryptoBeat = await cryptoBeatMarketplace._cryptoBeats(cryptoBeatId);
+            const cryptoBeatSaleInfo = await cryptoBeatMarketplace._cryptoBeatSaleInfo(cryptoBeatId);
 
-            expect(cryptoBeat.seller).eq(seller.address);
-            expect(cryptoBeat.price).eq(cryptoBeatPrice);
+            expect(cryptoBeatSaleInfo.seller).eq(seller.address);
+            expect(cryptoBeatSaleInfo.price).eq(cryptoBeatPrice);
         });
     });
 
@@ -60,15 +60,15 @@ describe("CryptoBeatMarketplace", async () => {
                 seller,
                 buyer,
                 erc20,
-                cryptoBeatERC721,
+                cryptoBeat,
                 fee,
                 cryptoBeatMarketplace
             } = await fixture();
 
-            const cryptoBeatId = await cryptoBeatERC721.connect(seller).callStatic.mint(randomTokenURISuffix());
-            await cryptoBeatERC721.connect(seller).mint(randomTokenURISuffix());
+            const cryptoBeatId = await cryptoBeat.connect(seller).callStatic.mint(randomTokenURISuffix());
+            await cryptoBeat.connect(seller).mint(randomTokenURISuffix());
 
-            await cryptoBeatERC721.connect(seller).approve(cryptoBeatMarketplace.address, cryptoBeatId)
+            await cryptoBeat.connect(seller).approve(cryptoBeatMarketplace.address, cryptoBeatId)
 
             const cryptoBeatPrice = randomPrice();
 
@@ -78,7 +78,7 @@ describe("CryptoBeatMarketplace", async () => {
                 seller,
                 buyer,
                 erc20,
-                cryptoBeatERC721,
+                cryptoBeat,
                 fee,
                 cryptoBeatMarketplace,
                 cryptoBeatId,
@@ -91,7 +91,7 @@ describe("CryptoBeatMarketplace", async () => {
                 seller,
                 buyer,
                 erc20,
-                cryptoBeatERC721,
+                cryptoBeat,
                 fee,
                 cryptoBeatMarketplace,
                 cryptoBeatId,
@@ -105,7 +105,7 @@ describe("CryptoBeatMarketplace", async () => {
 
             const calculatedFee = calculateFee(cryptoBeatPrice, fee);
 
-            expect(await cryptoBeatERC721.ownerOf(cryptoBeatId)).eq(buyer.address);
+            expect(await cryptoBeat.ownerOf(cryptoBeatId)).eq(buyer.address);
             expect(await erc20.balanceOf(seller.address)).eq(cryptoBeatPrice.sub(calculatedFee));
             expect(await erc20.balanceOf(buyer.address)).eq(BigNumber.from(0));
             expect(await erc20.balanceOf(cryptoBeatMarketplace.address)).eq(calculatedFee);

@@ -4,7 +4,7 @@ pragma solidity 0.8.16;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
-contract CryptoBeatERC721 is ERC721URIStorage {
+contract CryptoBeat is ERC721URIStorage {
     uint256 private _countOfTokens;
     string private _baseTokenURI = "https://ipfs.io/ipfs/";
 
