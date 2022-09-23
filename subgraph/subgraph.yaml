@@ -1,0 +1,51 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: CryptoBeat
+    network: goerli
+    source:
+      address: "0xBeb2bCfc38Adf87a8412A99B6339b2D0BbfE19b0"
+      abi: CryptoBeat
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - ApprovalForAll
+        - Transfer
+      abis:
+        - name: CryptoBeat
+          file: ./abis/CryptoBeat.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/crypto-beat.ts
+  - kind: ethereum
+    name: CryptoBeatMarketplace
+    network: goerli
+    source:
+      address: "0x2bd9b33424437c2548e210460f748bCA49b3F892"
+      abi: CryptoBeatMarketplace
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Buy
+        - Sell
+      abis:
+        - name: CryptoBeatMarketplace
+          file: ./abis/CryptoBeatMarketplace.json
+      eventHandlers:
+        - event: Buy(address,address,uint256,uint256,uint256)
+          handler: handleBuy
+        - event: Sell(address,uint256,uint256)
+          handler: handleSell
+      file: ./src/crypto-beat-marketplace.ts

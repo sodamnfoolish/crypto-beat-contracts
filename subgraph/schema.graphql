@@ -1,0 +1,21 @@
+type ExampleEntity @entity {
+  id: ID!
+  count: BigInt!
+  owner: Bytes! # address
+  approved: Bytes! # address
+}
+type Buy @entity {
+  id: ID!
+  seller: Bytes! # address
+  buyer: Bytes! # address
+  cryptoBeatId: BigInt! # uint256
+  cryptoBeatPrice: BigInt! # uint256
+  fee: BigInt! # uint256
+}
+
+type Sell @entity {
+  id: ID!
+  seller: Bytes! # address
+  cryptoBeatId: BigInt! # uint256
+  cryptoBeatPrice: BigInt! # uint256
+}
