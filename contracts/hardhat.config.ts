@@ -18,9 +18,9 @@ const config: HardhatUserConfig = {
     enabled: true
   },
   networks: {
-    ropsten: {
-      chainId: 3,
-      url: `https://ropsten.infura.io/v3/${process.env.INFURA_API_KEY}`,
+    goerli: {
+      chainId: 5,
+      url: `https://goerli.infura.io/v3/${process.env.INFURA_API_KEY}`,
       accounts: process.env.DEPLOYER_PRIVATE_KEY ? [ process.env.DEPLOYER_PRIVATE_KEY ] : [],
     }
   }
