@@ -1,3 +1,5 @@
 generated
 build
 node_modules
+
+subgraph.example.yaml

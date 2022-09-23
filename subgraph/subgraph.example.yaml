@@ -2,11 +2,11 @@ specVersion: 0.0.4
 schema:
   file: ./schema.graphql
 dataSources:
-  - kind: ethereum
-    name: CryptoBeat
-    network: goerli
+  - name: CryptoBeat
+    kind: ethereum
+    network: {{name}}
     source:
-      address: "0xBeb2bCfc38Adf87a8412A99B6339b2D0BbfE19b0"
+      address: "{{CryptoBeat}}"
       abi: CryptoBeat
     mapping:
       kind: ethereum/events
@@ -27,11 +27,11 @@ dataSources:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
       file: ./src/crypto-beat.ts
-  - kind: ethereum
-    name: CryptoBeatMarketplace
-    network: goerli
+  - name: CryptoBeatMarketplace
+    kind: ethereum
+    network: {{name}}
     source:
-      address: "0x2bd9b33424437c2548e210460f748bCA49b3F892"
+      address: "{{CryptoBeatMarketplace}}"
       abi: CryptoBeatMarketplace
     mapping:
       kind: ethereum/events
