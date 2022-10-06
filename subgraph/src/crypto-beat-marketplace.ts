@@ -1,27 +1,44 @@
 import {
   Buy as BuyEvent,
-  Sell as SellEvent
-} from "../generated/CryptoBeatMarketplace/CryptoBeatMarketplace"
-import { Buy, Sell } from "../generated/schema"
+  Sell as SellEvent,
+} from "../generated/CryptoBeatMarketplace/CryptoBeatMarketplace";
+
+import { CryptoBeat, OnSaleCryptoBeat } from "../generated/schema";
+
+import { Address, BigInt } from "@graphprotocol/graph-ts";
 
 export function handleBuy(event: BuyEvent): void {
-  let entity = new Buy(
-    event.transaction.hash.toHex() + "-" + event.logIndex.toString()
-  )
-  entity.seller = event.params.seller
-  entity.buyer = event.params.buyer
-  entity.cryptoBeatId = event.params.cryptoBeatId
-  entity.cryptoBeatPrice = event.params.cryptoBeatPrice
-  entity.fee = event.params.fee
-  entity.save()
+  const cryptoBeat = CryptoBeat.load(event.params.cryptoBeatId.toString())!;
+
+  const onSaleCryptoBeat = OnSaleCryptoBeat.load(
+    cryptoBeat.currentOnSaleCryptoBeatId
+  )!;
+
+  onSaleCryptoBeat.onSale = false;
+  onSaleCryptoBeat.buyer = event.params.buyer;
+  onSaleCryptoBeat.buyTimestamp = event.block.timestamp;
+
+  onSaleCryptoBeat.save();
 }
 
 export function handleSell(event: SellEvent): void {
-  let entity = new Sell(
-    event.transaction.hash.toHex() + "-" + event.logIndex.toString()
-  )
-  entity.seller = event.params.seller
-  entity.cryptoBeatId = event.params.cryptoBeatId
-  entity.cryptoBeatPrice = event.params.cryptoBeatPrice
-  entity.save()
+  const onSaleCryptoBeat = new OnSaleCryptoBeat(
+    event.transaction.hash.toString() + event.logIndex.toString()
+  );
+
+  onSaleCryptoBeat.onSale = true;
+  onSaleCryptoBeat.seller = event.params.seller;
+  onSaleCryptoBeat.sellTimestamp = event.block.timestamp;
+  onSaleCryptoBeat.buyer = Address.zero();
+  onSaleCryptoBeat.buyTimestamp = BigInt.zero();
+  onSaleCryptoBeat.cryptoBeatId = event.params.cryptoBeatId;
+  onSaleCryptoBeat.cryptoBeatPrice = event.params.cryptoBeatPrice;
+
+  onSaleCryptoBeat.save();
+
+  const cryptoBeat = CryptoBeat.load(event.params.cryptoBeatId.toString())!;
+
+  cryptoBeat.currentOnSaleCryptoBeatId = onSaleCryptoBeat.id;
+
+  cryptoBeat.save();
 }

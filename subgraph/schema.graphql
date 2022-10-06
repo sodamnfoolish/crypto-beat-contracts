@@ -1,21 +1,20 @@
-type ExampleEntity @entity {
+type CryptoBeat @entity {
   id: ID!
-  count: BigInt!
-  owner: Bytes! # address
-  approved: Bytes! # address
-}
-type Buy @entity {
-  id: ID!
-  seller: Bytes! # address
-  buyer: Bytes! # address
-  cryptoBeatId: BigInt! # uint256
-  cryptoBeatPrice: BigInt! # uint256
-  fee: BigInt! # uint256
+  creator: Bytes!
+  creatorTimestamp: BigInt!
+  owner: Bytes!
+  ownerTimestamp: BigInt!
+  url: String!
+  currentOnSaleCryptoBeatId: String!
 }
 
-type Sell @entity {
+type OnSaleCryptoBeat @entity {
   id: ID!
-  seller: Bytes! # address
-  cryptoBeatId: BigInt! # uint256
-  cryptoBeatPrice: BigInt! # uint256
+  onSale: Boolean!
+  seller: Bytes!
+  sellTimestamp: BigInt!
+  buyer: Bytes!
+  buyTimestamp: BigInt!
+  cryptoBeatId: BigInt!
+  cryptoBeatPrice: BigInt!
 }

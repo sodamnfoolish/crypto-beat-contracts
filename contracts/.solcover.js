@@ -1,3 +1,3 @@
 module.exports = {
-    skipFiles: ["TestERC20.sol"]
+  skipFiles: ["TestERC20.sol"],
 };

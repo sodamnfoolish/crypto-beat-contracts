@@ -12,21 +12,23 @@ dotenv.config();
 const config: HardhatUserConfig = {
   solidity: "0.8.16",
   contractSizer: {
-    runOnCompile: true
+    runOnCompile: true,
   },
   gasReporter: {
-    enabled: true
+    enabled: true,
   },
   networks: {
     goerli: {
       chainId: 5,
       url: `https://goerli.infura.io/v3/${process.env.INFURA_API_KEY}`,
-      accounts: process.env.DEPLOYER_PRIVATE_KEY ? [ process.env.DEPLOYER_PRIVATE_KEY ] : [],
-    }
+      accounts: process.env.DEPLOYER_PRIVATE_KEY
+        ? [process.env.DEPLOYER_PRIVATE_KEY]
+        : [],
+    },
   },
   etherscan: {
-    apiKey: process.env.ETHERSCAN_API_KEY
-  }
+    apiKey: process.env.ETHERSCAN_API_KEY,
+  },
 };
 
 export default config;
