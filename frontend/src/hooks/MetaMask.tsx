@@ -1,53 +1,44 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { ethers } from "ethers";
 
-export function isMetaMaskAvailable() {
-  return window.ethereum != undefined && window.ethereum.isMetaMask;
-}
-
 export function useMetaMask() {
+  const available = window.ethereum != undefined && window.ethereum.isMetaMask;
   const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const [accounts, setAccounts] = React.useState([] as string[]);
   const signer = provider.getSigner();
+  const [signerAddress, setSignerAddress] = React.useState(
+    ethers.constants.AddressZero
+  );
+  const [chainId, setChainId] = React.useState(0);
 
-  const [signerAddress, setSignerAddress] = useState("");
-  const [isMetaMaskConnected, setIsMetaMaskConnected] = useState(false);
-  const [isRightMetaMaskNetwork, setIsRightMetaMaskNetwork] = useState(false);
+  provider
+    .send("eth_accounts", [])
+    .then((result: string[]) => {
+      setAccounts(result)
 
-  useEffect(() => {
-    window.ethereum.on("chainChanged", () => {
-      window.location.reload();
+      signer.getAddress().then((result) => setSignerAddress(result));
+
+      signer.getChainId().then((result) => setChainId(result));
     });
-    window.ethereum.on("accountsChanged", () => {
-      window.location.reload();
-    });
-  });
 
-  signer.getAddress().then((result) => {
-    setSignerAddress(result);
-    setIsMetaMaskConnected(true);
 
-    signer
-      .getChainId()
-      .then((result) =>
-        setIsRightMetaMaskNetwork(result == process.env.REACT_APP_CHAIN_ID)
-      );
-  });
 
   const connectMetaMask = () => provider.send("eth_requestAccounts", []);
 
-  const switchChain = () =>
+  const switchChain = (newChainId: number) =>
     provider.send("wallet_switchEthereumChain", [
       {
-        chainId: ethers.utils.hexValue(Number(process.env.REACT_APP_CHAIN_ID)),
+        chainId: ethers.utils.hexValue(Number(newChainId)),
       },
     ]);
 
   return {
+    available,
     provider,
+    accounts,
     signer,
     signerAddress,
-    isMetaMaskConnected,
-    isRightMetaMaskNetwork,
+    chainId,
     connectMetaMask,
     switchChain,
   };

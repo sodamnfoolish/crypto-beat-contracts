@@ -1,30 +1,38 @@
 import React from "react";
-import { isMetaMaskAvailable, useMetaMask } from "../hooks/MetaMask";
+import { useMetaMask } from "../hooks/MetaMask";
 
 export default function MetaMask(props: any) {
-  if (!isMetaMaskAvailable()) return <div>MetaMask not available :(</div>;
-
   const {
+    available,
+    accounts,
     signerAddress,
-    isMetaMaskConnected,
-    isRightMetaMaskNetwork,
+    chainId,
     connectMetaMask,
     switchChain,
   } = useMetaMask();
 
-  if (!isMetaMaskConnected)
+  if (!available) return <div>MetaMask not available :(</div>;
+
+  if (!accounts.length)
     return (
       <div>
         <button onClick={connectMetaMask}>Connect MetaMask</button>
       </div>
     );
 
-  if (!isRightMetaMaskNetwork)
+  if (chainId != Number(process.env.REACT_APP_CHAIN_ID))
     return (
       <div>
-        <button onClick={switchChain}>Change network</button>
+        <button onClick={() => switchChain(process.env.REACT_APP_CHAIN_ID)}>
+          Change network
+        </button>
       </div>
     );
 
-  return <div>{signerAddress}</div>;
+  return (
+      <div>
+        <div>{signerAddress}</div>
+        <div>{props.children}</div>
+      </div>
+  );
 }

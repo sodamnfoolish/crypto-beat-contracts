@@ -1,6 +1,6 @@
 import React from "react";
-import { create } from "ipfs-http-client";
 import { Buffer } from "buffer";
+import { create } from "ipfs-http-client";
 
 export function useIPFS() {
   const client = create({
@@ -16,11 +16,11 @@ export function useIPFS() {
     },
   });
 
-  const fileNameAndCIDToUrl = (fileName: string, CID: string) =>
-    process.env.REACT_APP_IPFS_URL + CID + "?filename=" + fileName;
+  const CIDAndFileNameToURISuffix = (CID: string, fileName: string) =>
+    CID + "?filename=" + fileName;
 
   return {
     client,
-    fileNameAndCIDToUrl,
+    CIDAndFileNameToURISuffix,
   };
 }

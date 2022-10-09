@@ -7,6 +7,9 @@ export declare global {
       REACT_APP_INFURA_IPFS_API_KEY_SECRET: string;
       REACT_APP_IPFS_URL: string;
       REACT_APP_SUBGRAPH_URL: string;
+      REACT_APP_ERC20_ADDRESS: string;
+      REACT_APP_CRYPTOBEAT_ADDRESS: string;
+      REACT_APP_CRYPTOBEATMARKEPLACE_ADDRESS: string;
     }
   }
 }
