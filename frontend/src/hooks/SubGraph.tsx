@@ -33,6 +33,30 @@ export function useSubGraph() {
       })
     ).data.cryptoBeats;
 
+  const getCryptoBeatsByOwner = async (
+    owner: string
+  ): Promise<CryptoBeatGraphQLEntity[]> =>
+    (
+      await client.query<CryptoBeatGraphQLResponse>({
+        query: gql`
+          query getCryptoBeatsByOwner($owner: String!) {
+            cryptoBeats(where: { owner: $owner }) {
+              id
+              creator
+              creatorTimestamp
+              owner
+              ownerTimestamp
+              url
+              currentOnSaleCryptoBeatId
+            }
+          }
+        `,
+        variables: {
+          owner: owner.toLowerCase(),
+        },
+      })
+    ).data.cryptoBeats;
+
   const getCryptoBeatsOnSale = async (): Promise<
     OnSaleCryptoBeatGraphQLEntity[]
   > =>
@@ -57,6 +81,7 @@ export function useSubGraph() {
 
   return {
     getCryptoBeats,
+    getCryptoBeatsByOwner,
     getCryptoBeatsOnSale,
   };
 }

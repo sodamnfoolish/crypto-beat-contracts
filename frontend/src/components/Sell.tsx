@@ -17,15 +17,16 @@ export default function Sell(props: any) {
 
   const { cryptoBeat, cryptoBeatMarketplace } = useContracts();
 
-  const { getCryptoBeats } = useSubGraph();
+  const { getCryptoBeatsByOwner } = useSubGraph();
 
-  getCryptoBeats().then((cryptoBeats) => {
-    const cryptoBeatsFilteredByOwner = cryptoBeats.filter(
-      (cryptoBeat) => cryptoBeat.owner == signerAddress
-    );
+  getCryptoBeatsByOwner(signerAddress).then((cryptoBeats) => {
+    while (cryptoBeats.length > ownedCryptoBeatsPrice.length)
+      ownedCryptoBeatsPrice.push(ethers.constants.Zero);
 
-    setOwnedCryptoBeats(cryptoBeatsFilteredByOwner);
-    setOwnedCryptoBeatsPrice(new Array() as ethers.BigNumber[]);
+    while (cryptoBeats.length < ownedCryptoBeatsPrice.length)
+      ownedCryptoBeatsPrice.pop();
+
+    setOwnedCryptoBeats(cryptoBeats);
   });
 
   const onOwnedCryptoBeatsPriceChanged = (
@@ -59,33 +60,37 @@ export default function Sell(props: any) {
   return (
     <div>
       <table>
-        {ownedCryptoBeats.map((ownerCryptoBeat, index) => {
-          return (
-            <div>
-              <tr>
-                <a href={ownerCryptoBeat.url}>Link</a>
+        <tbody>
+          {ownedCryptoBeats.map((ownerCryptoBeat, index) => {
+            return (
+              <tr key={index}>
+                <td>
+                  <a href={ownerCryptoBeat.url} target="_blank">
+                    Link
+                  </a>
+                </td>
+                <td>
+                  <input
+                    value={ownedCryptoBeatsPrice[index].toString()}
+                    onChange={(event) =>
+                      onOwnedCryptoBeatsPriceChanged(event, index)
+                    }
+                  />
+                </td>
+                <td>
+                  <button
+                    disabled={ownedCryptoBeatsPrice[index]?.isZero()}
+                    onClick={async () =>
+                      await onSellButtonClick(ownerCryptoBeat, index)
+                    }
+                  >
+                    Sell
+                  </button>
+                </td>
               </tr>
-              <tr>
-                <input
-                  value={ownedCryptoBeatsPrice[index].toString()}
-                  onChange={(event) =>
-                    onOwnedCryptoBeatsPriceChanged(event, index)
-                  }
-                />
-              </tr>
-              <tr>
-                <button
-                  disabled={ownedCryptoBeatsPrice[index].isZero()}
-                  onClick={async () =>
-                    await onSellButtonClick(ownerCryptoBeat, index)
-                  }
-                >
-                  Sell
-                </button>
-              </tr>
-            </div>
-          );
-        })}
+            );
+          })}
+        </tbody>
       </table>
     </div>
   );
