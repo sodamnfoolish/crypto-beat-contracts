@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "homepage": "https://sodamnfoolish.github.io/CryptoBeat",
-  "private": true,
+  "private": false,
   "dependencies": {
     "@apollo/client": "^3.7.0",
     "@testing-library/jest-dom": "^5.16.5",
