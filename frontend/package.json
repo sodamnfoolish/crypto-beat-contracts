@@ -1,7 +1,7 @@
 {
   "name": "frontend",
   "version": "0.1.0",
-  "homepage": "https://{username}.github.io/CryptoBeat",
+  "homepage": "https://sodamnfoolish.github.io/CryptoBeat",
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.7.0",
