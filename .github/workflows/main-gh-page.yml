@@ -10,5 +10,5 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - run: cd ./frontend
-      - run: npm run deploy
+      - working-directory: ./frontend
+        run: npm run deploy
