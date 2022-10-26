@@ -1,0 +1,14 @@
+name: Main GitHub Page
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/main-gh-page.yml'
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - run: cd ./frontend
+      - run: npm run deploy
