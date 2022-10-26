@@ -30,9 +30,9 @@ export default function MetaMask(props: any) {
     );
 
   return (
-      <div>
-        <div>{signerAddress}</div>
-        <div>{props.children}</div>
-      </div>
+    <div>
+      <div>{signerAddress}</div>
+      <div>{props.children}</div>
+    </div>
   );
 }

@@ -11,17 +11,13 @@ export function useMetaMask() {
   );
   const [chainId, setChainId] = React.useState(0);
 
-  provider
-    .send("eth_accounts", [])
-    .then((result: string[]) => {
-      setAccounts(result)
+  provider.send("eth_accounts", []).then((result: string[]) => {
+    setAccounts(result);
 
-      signer.getAddress().then((result) => setSignerAddress(result));
+    signer.getAddress().then((result) => setSignerAddress(result));
 
-      signer.getChainId().then((result) => setChainId(result));
-    });
-
-
+    signer.getChainId().then((result) => setChainId(result));
+  });
 
   const connectMetaMask = () => provider.send("eth_requestAccounts", []);
 
