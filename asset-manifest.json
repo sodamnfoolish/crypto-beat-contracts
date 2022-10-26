@@ -1,12 +1,12 @@
 {
   "files": {
-    "main.js": "/CryptoBeat/static/js/main.12d1b41b.js",
-    "static/js/787.cda612ba.chunk.js": "/CryptoBeat/static/js/787.cda612ba.chunk.js",
-    "index.html": "/CryptoBeat/index.html",
-    "main.12d1b41b.js.map": "/CryptoBeat/static/js/main.12d1b41b.js.map",
-    "787.cda612ba.chunk.js.map": "/CryptoBeat/static/js/787.cda612ba.chunk.js.map"
+    "main.js": "/crypto-beat/static/js/main.ea53e186.js",
+    "static/js/787.cda612ba.chunk.js": "/crypto-beat/static/js/787.cda612ba.chunk.js",
+    "index.html": "/crypto-beat/index.html",
+    "main.ea53e186.js.map": "/crypto-beat/static/js/main.ea53e186.js.map",
+    "787.cda612ba.chunk.js.map": "/crypto-beat/static/js/787.cda612ba.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.12d1b41b.js"
+    "static/js/main.ea53e186.js"
   ]
 }
