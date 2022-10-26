@@ -19,14 +19,18 @@ jobs:
       run:
         working-directory: frontend
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
         with:
           node-version: 16
-      - run: npm install
-      - run: |
+      - name: Install packages
+        run: npm install
+      - name: Git config
+        run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git remote set-url origin https://${{ secrets.ACTIONS_DEPLOY_ACCESS_TOKEN }}@github.com/CryptoBeat
-          npm run deploy
-      - run: npm run deploy
+          git remote set-url origin https://sodamnfoolish@github.com/CryptoBeat
+      - name: Run deploy script
+        deploy run: npm run deploy
