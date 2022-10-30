@@ -5,13 +5,7 @@ on:
       - main
     paths:
       - 'frontend/**'
-      - '.github/workflows/main-gh-page.yml'
-  pull_request:
-    branches:
-      - main
-    paths:
-      - 'frontend/**'
-      - '.github/workflows/main-gh-page.yml'
+      - '.github/workflows/main-push-gh-page.yml'
 jobs:
   deploy:
     runs-on: ubuntu-latest
