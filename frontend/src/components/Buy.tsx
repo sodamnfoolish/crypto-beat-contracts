@@ -29,14 +29,20 @@ export default function Buy(props: any) {
 
   getCryptoBeatsOnSale().then((result) => setCryptoBeatsOnSale(result));
 
-  const onBuyButtonClick = (cryptoBeatOnSale: OnSaleCryptoBeatGraphQLEntity) =>
-    erc20
-      .approve(cryptoBeatMarketplace.address, cryptoBeatOnSale.cryptoBeatPrice)
-      .then((txResponse: any) =>
-        txResponse
-          .wait()
-          .then(() => cryptoBeatMarketplace.buy(cryptoBeatOnSale.cryptoBeatId))
-      );
+  const onBuyButtonClick = async (
+    cryptoBeatOnSale: OnSaleCryptoBeatGraphQLEntity
+  ) => {
+    await (
+      await erc20.approve(
+        cryptoBeatMarketplace.address,
+        cryptoBeatOnSale.cryptoBeatPrice
+      )
+    ).wait();
+
+    await (
+      await cryptoBeatMarketplace.buy(cryptoBeatOnSale.cryptoBeatId)
+    ).wait();
+  };
 
   return (
     <div>
