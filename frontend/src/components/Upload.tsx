@@ -11,11 +11,10 @@ export default function Upload(props: any) {
 
   const onFileChange = (event: any) => setFile(event.target.files[0]);
 
-  const onUploadButtonClick = async () => {
-    const added = await client.add(file);
-    console.log(added.path);
-    await cryptoBeat.mint(CIDAndFileNameToURISuffix(added.path, file.name));
-  };
+  const onUploadButtonClick = () =>
+    client.add(file).then((addedFile) => {
+      cryptoBeat.mint(CIDAndFileNameToURISuffix(addedFile.path, file.name));
+    });
 
   return (
     <div>

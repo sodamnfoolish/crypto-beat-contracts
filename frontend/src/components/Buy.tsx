@@ -32,9 +32,11 @@ export default function Buy(props: any) {
   const onBuyButtonClick = (cryptoBeatOnSale: OnSaleCryptoBeatGraphQLEntity) =>
     erc20
       .approve(cryptoBeatMarketplace.address, cryptoBeatOnSale.cryptoBeatPrice)
-      .then(() => {
-        cryptoBeatMarketplace.buy(cryptoBeatOnSale.cryptoBeatId);
-      });
+      .then((txResponse: any) =>
+        txResponse
+          .wait()
+          .then(() => cryptoBeatMarketplace.buy(cryptoBeatOnSale.cryptoBeatId))
+      );
 
   return (
     <div>
