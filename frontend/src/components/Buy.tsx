@@ -29,47 +29,48 @@ export default function Buy(props: any) {
 
   getCryptoBeatsOnSale().then((result) => setCryptoBeatsOnSale(result));
 
-  const onBuyButtonClick = async (
-    cryptoBeatOnSale: OnSaleCryptoBeatGraphQLEntity
-  ) => {
-    await erc20.approve(
-      cryptoBeatMarketplace.address,
-      cryptoBeatOnSale.cryptoBeatPrice
-    );
-    await cryptoBeatMarketplace.buy(cryptoBeatOnSale.cryptoBeatId);
-  };
+  const onBuyButtonClick = (cryptoBeatOnSale: OnSaleCryptoBeatGraphQLEntity) =>
+    erc20
+      .approve(cryptoBeatMarketplace.address, cryptoBeatOnSale.cryptoBeatPrice)
+      .then(() => {
+        cryptoBeatMarketplace.buy(cryptoBeatOnSale.cryptoBeatId);
+      });
 
   return (
     <div>
       <table>
-        {cryptoBeatsOnSale.map((cryptoBeatOnSale) => {
-          return (
-            <div>
-              <tr>
-                <a
-                  href={
-                    cryptoBeats.find(
-                      (cryptoBeat) =>
-                        cryptoBeat.id ==
-                        cryptoBeatOnSale.cryptoBeatId.toString()
-                    )!.url
-                  }
-                >
-                  Link
-                </a>
+        <tbody>
+          {cryptoBeatsOnSale.map((cryptoBeatOnSale, index) => {
+            return (
+              <tr key={index}>
+                <td>
+                  <a
+                    href={
+                      cryptoBeats.find(
+                        (cryptoBeat) =>
+                          cryptoBeat.id ==
+                          cryptoBeatOnSale.cryptoBeatId.toString()
+                      )!.url
+                    }
+                  >
+                    Link
+                  </a>
+                </td>
+                <td>{cryptoBeatOnSale.cryptoBeatPrice.toString()}</td>
+                <td>
+                  <button
+                    disabled={erc20Balance.lt(cryptoBeatOnSale.cryptoBeatPrice)}
+                    onClick={async () =>
+                      await onBuyButtonClick(cryptoBeatOnSale)
+                    }
+                  >
+                    Buy
+                  </button>
+                </td>
               </tr>
-              <tr>{cryptoBeatOnSale.cryptoBeatPrice.toString()}</tr>
-              <tr>
-                <button
-                  disabled={erc20Balance < cryptoBeatOnSale.cryptoBeatPrice}
-                  onClick={async () => await onBuyButtonClick(cryptoBeatOnSale)}
-                >
-                  Buy
-                </button>
-              </tr>
-            </div>
-          );
-        })}
+            );
+          })}
+        </tbody>
       </table>
     </div>
   );
