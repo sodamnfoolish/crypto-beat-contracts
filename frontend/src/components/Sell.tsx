@@ -43,25 +43,24 @@ export default function Sell(props: any) {
     setOwnedCryptoBeatsPrice(newCryptoOwnedBeatsPrice);
   };
 
-  const onSellButtonClick = (
+  const onSellButtonClick = async (
     ownedCryptoBeat: CryptoBeatGraphQLEntity,
     index: number
-  ) =>
-    cryptoBeat
-      .approve(
+  ) => {
+    await (
+      await cryptoBeat.approve(
         cryptoBeatMarketplace.address,
         ethers.BigNumber.from(ownedCryptoBeat.id)
       )
-      .then((txResponse: any) =>
-        txResponse
-          .wait()
-          .then(() =>
-            cryptoBeatMarketplace.sell(
-              ethers.BigNumber.from(ownedCryptoBeat.id),
-              ownedCryptoBeatsPrice[index]
-            )
-          )
-      );
+    ).wait();
+
+    await (
+      await cryptoBeatMarketplace.sell(
+        ethers.BigNumber.from(ownedCryptoBeat.id),
+        ownedCryptoBeatsPrice[index]
+      )
+    ).wait();
+  };
 
   return (
     <div>
