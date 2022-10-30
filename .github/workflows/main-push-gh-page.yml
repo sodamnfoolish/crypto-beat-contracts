@@ -1,4 +1,4 @@
-name: Main GitHub Page
+name: Main Deploy GitHub Page
 on:
   push:
     branches:
