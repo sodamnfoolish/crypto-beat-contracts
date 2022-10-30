@@ -47,14 +47,19 @@ export default function Sell(props: any) {
     ownedCryptoBeat: CryptoBeatGraphQLEntity,
     index: number
   ) => {
-    await cryptoBeat.approve(
-      cryptoBeatMarketplace.address,
-      ethers.BigNumber.from(ownedCryptoBeat.id)
-    );
-    await cryptoBeatMarketplace.sell(
-      ethers.BigNumber.from(ownedCryptoBeat.id),
-      ownedCryptoBeatsPrice[index]
-    );
+    await (
+      await cryptoBeat.approve(
+        cryptoBeatMarketplace.address,
+        ethers.BigNumber.from(ownedCryptoBeat.id)
+      )
+    ).wait();
+
+    await (
+      await cryptoBeatMarketplace.sell(
+        ethers.BigNumber.from(ownedCryptoBeat.id),
+        ownedCryptoBeatsPrice[index]
+      )
+    ).wait();
   };
 
   return (
