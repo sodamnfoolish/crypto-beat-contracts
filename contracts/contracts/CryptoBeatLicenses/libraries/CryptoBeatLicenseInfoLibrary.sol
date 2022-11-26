@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 
 import "../structs/CryptoBeatLicenseInfo.sol";
 
-library CryptoBeatLicenseId {
+library CryptoBeatLicenseInfoLibrary {
     function ComputeId(CryptoBeatLicenseInfo memory cryptoBeatLicense) external pure returns(bytes32) {
         return keccak256(abi.encode(cryptoBeatLicense));
     }
