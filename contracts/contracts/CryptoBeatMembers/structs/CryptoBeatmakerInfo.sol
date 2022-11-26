@@ -5,4 +5,5 @@ pragma solidity ^0.8.0;
 struct CryptoBeatmakerInfo {
     bool joined;
     bool verified;
+    bool banned;
 }
