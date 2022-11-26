@@ -3,11 +3,11 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
-import "../CryptoBeatGovernance/extensions/CryptoBeatGovernanceAccess.sol";
+import "../CryptoBeatGovernance/presets/CryptoBeatGovernanceInjected.sol";
 import "./structs/CryptoBeatmakerInfo.sol";
 import "./structs/CryptoArtistInfo.sol";
 
-contract CryptoBeatMembers is CryptoBeatGovernanceAccess {
+contract CryptoBeatMembers is CryptoBeatGovernanceInjected {
     using AddressUpgradeable for address;
 
     mapping(address => CryptoBeatmakerInfo) private _cryptoBeatmakers;
@@ -21,7 +21,7 @@ contract CryptoBeatMembers is CryptoBeatGovernanceAccess {
     event VerifyCryptoArtist(address verifier, address who);
 
     function initialize(CryptoBeatGovernance cryptoBeatGovernance) external initializer {
-        __CryptoBeatGovernanceAccess_init(cryptoBeatGovernance);
+        __CryptoBeatGovernanceInjected_init(cryptoBeatGovernance);
     }
 
     function joinAsCryptoBeatmaker() external {
@@ -56,11 +56,11 @@ contract CryptoBeatMembers is CryptoBeatGovernanceAccess {
         emit VerifyCryptoArtist(msg.sender, who);
     }
 
-    function cryptoBeatmakerInfoOf(address who) external view returns (CryptoBeatmakerInfo memory) {
+    function getCryptoBeatmakerInfo(address who) external view returns (CryptoBeatmakerInfo memory) {
         return _cryptoBeatmakers[who];
     }
 
-    function cryptoArtistInfoOf(address who) external view returns (CryptoArtistInfo memory) {
+    function getCryptoArtistInfo(address who) external view returns (CryptoArtistInfo memory) {
         return _cryptoArtists[who];
     }
 }
