@@ -2,8 +2,8 @@
 
 pragma solidity ^0.8.0;
 
-import "../CryptoBeatGovernance.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "../CryptoBeatGovernance.sol";
 
 contract CryptoBeatGovernanceAccess is Initializable {
     CryptoBeatGovernance public _cryptoBeatGovernance;
@@ -13,7 +13,7 @@ contract CryptoBeatGovernanceAccess is Initializable {
     }
 
     modifier onlyAdmin() {
-        require(_cryptoBeatGovernance._hasRole(msg.sender, CryptoBeatGovernanceRoles.ADMIN_ROLE), "CryptoBeatGovernable: only admin");
+        require(_cryptoBeatGovernance.hasRole(msg.sender, CryptoBeatGovernanceRoles.ADMIN_ROLE), "CryptoBeatGovernable: only admin");
         _;
     }
 }

@@ -6,7 +6,7 @@ import "./libraries/CryptoBeatGovernanceRoles.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 contract CryptoBeatGovernance is Initializable {
-    mapping(address => mapping(bytes32 => bool)) public _hasRole;
+    mapping(address => mapping(bytes32 => bool)) private _hasRole;
 
     uint256[50] private __gap;
 
@@ -14,8 +14,12 @@ contract CryptoBeatGovernance is Initializable {
         _hasRole[msg.sender][CryptoBeatGovernanceRoles.ADMIN_ROLE] = true;
     }
 
-    function setRole(address who, bytes32 role, bool hasRole) external onlyAdmin {
-        _hasRole[who][role] = hasRole;
+    function setRole(address who, bytes32 role, bool has) external onlyAdmin {
+        _hasRole[who][role] = has;
+    }
+
+    function hasRole(address who, bytes32 role) external view returns(bool) {
+        return _hasRole[who][role];
     }
 
     modifier onlyAdmin() {
