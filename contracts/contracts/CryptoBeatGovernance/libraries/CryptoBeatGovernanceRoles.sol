@@ -3,5 +3,6 @@
 pragma solidity ^0.8.0;
 
 library CryptoBeatGovernanceRoles {
-    bytes32 constant ADMIN_ROLE = keccak256("admin");
+    bytes32 constant ADMIN_ROLE = keccak256("Admin");
+    bytes32 constant CRYPTO_BEAT_MARKETPLACE_ROLE = keccak256("CryptoBeatMarketplace");
 }

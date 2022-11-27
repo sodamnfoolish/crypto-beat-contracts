@@ -15,7 +15,12 @@ contract CryptoBeatGovernanceInjected is Initializable {
     }
 
     modifier onlyAdmin() {
-        require(_cryptoBeatGovernance.hasRole(msg.sender, CryptoBeatGovernanceRoles.ADMIN_ROLE), "CryptoBeatGovernanceInjected: only admin");
+        require(_cryptoBeatGovernance.hasRole(msg.sender, CryptoBeatGovernanceRoles.ADMIN_ROLE), "CryptoBeatGovernanceInjected: only Admin");
+        _;
+    }
+
+    modifier onlyCryptoBeatMarketplace() {
+        require(_cryptoBeatGovernance.hasRole(msg.sender, CryptoBeatGovernanceRoles.CRYPTO_BEAT_MARKETPLACE_ROLE), "CryptoBeatGovernanceInjected: only CryptoBeatMarketplace");
         _;
     }
 }
