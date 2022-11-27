@@ -14,15 +14,18 @@ contract CryptoBeatMembersInjected is Initializable {
         _cryptoBeatMembers = cryptoBeatMembers;
     }
 
-    modifier onlyNotBannedCryptoBeatmaker() {
-        require(_cryptoBeatMembers.getCryptoBeatmakerInfo(msg.sender).joined, "CryptoBeatMembersInjected: only CryptoBeatmaker");
-        require(_cryptoBeatMembers.getCryptoBeatmakerInfo(msg.sender).banned, "CryptoBeatMembersInjected: CryptoBeatmaker banned");
+    modifier notBanned() {
+        require(!_cryptoBeatMembers.isBanned(msg.sender), "CryptoBeatMembersInjected: banned");
         _;
     }
 
-    modifier onlyNotBannedCryptoArtist() {
+    modifier onlyCryptoBeatmaker() {
+        require(_cryptoBeatMembers.getCryptoBeatmakerInfo(msg.sender).joined, "CryptoBeatMembersInjected: only CryptoBeatmaker");
+        _;
+    }
+
+    modifier onlyCryptoArtist() {
         require(_cryptoBeatMembers.getCryptoArtistInfo(msg.sender).joined, "CryptoBeatMembersInjected: only CryptoArtist");
-        require(_cryptoBeatMembers.getCryptoArtistInfo(msg.sender).banned, "CryptoBeatMembersInjected: CryptoArtist banned");
         _;
     }
 }

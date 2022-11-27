@@ -10,6 +10,7 @@ import "./structs/CryptoArtistInfo.sol";
 contract CryptoBeatMembers is CryptoBeatGovernanceInjected {
     using AddressUpgradeable for address;
 
+    mapping(address => bool) private _banned;
     mapping(address => CryptoBeatmakerInfo) private _cryptoBeatmakers;
     mapping(address => CryptoArtistInfo) private _cryptoArtists;
 
@@ -19,11 +20,22 @@ contract CryptoBeatMembers is CryptoBeatGovernanceInjected {
     event JoinAsCryptoArtist(address cryptoArtist);
     event VerifyCryptoBeatmaker(address admin, address cryptoBeatmaker);
     event VerifyCryptoArtist(address admin, address cryptoArtist);
-    event BanCryptoBeatmaker(address admin, address cryptoBeatmaker);
-    event BanCryptoArtist(address admin, address cryptoArtist);
+    event Ban(address admin, address who);
 
     function initialize(CryptoBeatGovernance cryptoBeatGovernance) external initializer {
         __CryptoBeatGovernanceInjected_init(cryptoBeatGovernance);
+    }
+
+    function getCryptoBeatmakerInfo(address who) external view returns (CryptoBeatmakerInfo memory) {
+        return _cryptoBeatmakers[who];
+    }
+
+    function getCryptoArtistInfo(address who) external view returns (CryptoArtistInfo memory) {
+        return _cryptoArtists[who];
+    }
+
+    function isBanned(address who) external view returns(bool) {
+        return _banned[who];
     }
 
     function joinAsCryptoBeatmaker() external {
@@ -60,27 +72,9 @@ contract CryptoBeatMembers is CryptoBeatGovernanceInjected {
         emit VerifyCryptoArtist(msg.sender, cryptoArtist);
     }
 
-    function banCryptoBeatmaker(address cryptoBeatmaker) external onlyAdmin {
-        require(_cryptoBeatmakers[cryptoBeatmaker].joined, "CryptoBeatMembers: CryptoBeatmaker not joined");
+    function ban(address who) external onlyAdmin {
+        _banned[who] = true;
 
-        _cryptoBeatmakers[cryptoBeatmaker].banned = true;
-
-        emit BanCryptoBeatmaker(msg.sender, cryptoBeatmaker);
-    }
-
-    function banCryptoArtist(address cryptoArtist) external onlyAdmin {
-        require(_cryptoArtists[cryptoArtist].joined, "CryptoBeatMembers: CryptoArtist not joined");
-
-        _cryptoArtists[cryptoArtist].banned = true;
-
-        emit BanCryptoArtist(msg.sender, cryptoArtist);
-    }
-
-    function getCryptoBeatmakerInfo(address who) external view returns (CryptoBeatmakerInfo memory) {
-        return _cryptoBeatmakers[who];
-    }
-
-    function getCryptoArtistInfo(address who) external view returns (CryptoArtistInfo memory) {
-        return _cryptoArtists[who];
+        emit Ban(msg.sender, who);
     }
 }
