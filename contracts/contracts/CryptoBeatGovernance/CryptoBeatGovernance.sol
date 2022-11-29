@@ -13,7 +13,7 @@ contract CryptoBeatGovernance is Initializable {
     event SetRole(address admin, address who, bytes32 role, bool has);
 
     function initialize() external initializer {
-        _hasRole[msg.sender][CryptoBeatGovernanceRoles.ADMIN_ROLE] = true;
+       _setRole(msg.sender, CryptoBeatGovernanceRoles.ADMIN_ROLE, true);
     }
 
     function hasRole(address who, bytes32 role) external view returns(bool) {
@@ -21,6 +21,10 @@ contract CryptoBeatGovernance is Initializable {
     }
 
     function setRole(address who, bytes32 role, bool has) external onlyAdmin {
+        _setRole(who, role, has);
+    }
+
+    function _setRole(address who, bytes32 role, bool has) private {
         _hasRole[who][role] = has;
 
         emit SetRole(msg.sender, who, role, has);
