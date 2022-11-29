@@ -4,77 +4,80 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
 import "../CryptoBeatGovernance/presets/CryptoBeatGovernanceInjected.sol";
-import "./structs/CryptoBeatmakerInfo.sol";
-import "./structs/CryptoArtistInfo.sol";
+import "./structs/CryptoBeatBeatmakerInfo.sol";
+import "./structs/CryptoBeatArtistInfo.sol";
 
 contract CryptoBeatMembers is CryptoBeatGovernanceInjected {
     using AddressUpgradeable for address;
 
     mapping(address => bool) private _banned;
-    mapping(address => CryptoBeatmakerInfo) private _cryptoBeatmakers;
-    mapping(address => CryptoArtistInfo) private _cryptoArtists;
+    mapping(address => CryptoBeatBeatmakerInfo) private _cryptoBeatBeatmakers;
+    mapping(address => CryptoBeatArtistInfo) private _cryptoBeatArtists;
 
     uint256[50] private __gap;
 
-    event JoinAsCryptoBeatmaker(address cryptoBeatmaker);
-    event JoinAsCryptoArtist(address cryptoArtist);
-    event VerifyCryptoBeatmaker(address admin, address cryptoBeatmaker);
-    event VerifyCryptoArtist(address admin, address cryptoArtist);
+    event JoinAsCryptoBeatBeatmaker(address cryptoBeatBeatmaker);
+    event JoinAsCryptoBeatArtist(address cryptoBeatArtist);
+    event VerifyCryptoBeatBeatmaker(address admin, address cryptoBeatBeatmaker);
+    event VerifyCryptoBeatArtist(address admin, address cryptoBeatArtist);
     event Ban(address admin, address who);
 
     function initialize(CryptoBeatGovernance cryptoBeatGovernance) external initializer {
         __CryptoBeatGovernanceInjected_init(cryptoBeatGovernance);
     }
 
-    function getCryptoBeatmakerInfo(address who) external view returns (CryptoBeatmakerInfo memory) {
-        return _cryptoBeatmakers[who];
+    function getCryptoBeatBeatmakerInfo(address who) external view returns (CryptoBeatBeatmakerInfo memory) {
+        return _cryptoBeatBeatmakers[who];
     }
 
-    function getCryptoArtistInfo(address who) external view returns (CryptoArtistInfo memory) {
-        return _cryptoArtists[who];
+    function getCryptoBeatArtistInfo(address who) external view returns (CryptoBeatArtistInfo memory) {
+        return _cryptoBeatArtists[who];
     }
 
     function isBanned(address who) external view returns(bool) {
         return _banned[who];
     }
 
-    function joinAsCryptoBeatmaker() external {
-        require(!msg.sender.isContract(), "CryptoBeatMembers: contracts not allowed");
-        require(!_cryptoBeatmakers[msg.sender].joined, "CryptoBeatMembers: CryptoBeatmaker already joined");
+    function joinAsCryptoBeatBeatmaker() external onlyNotContracts {
+        require(!_cryptoBeatBeatmakers[msg.sender].joined, "CryptoBeatMembers: CryptoBeatBeatmaker already joined");
 
-        _cryptoBeatmakers[msg.sender].joined = true;
+        _cryptoBeatBeatmakers[msg.sender].joined = true;
 
-        emit JoinAsCryptoBeatmaker(msg.sender);
+        emit JoinAsCryptoBeatBeatmaker(msg.sender);
     }
 
-    function joinAsCryptoArtist() external {
-        require(!msg.sender.isContract(), "CryptoBeatMembers: contracts not allowed");
-        require(!_cryptoArtists[msg.sender].joined, "CryptoBeatMembers: CryptoArtist already joined");
+    function joinAsCryptoBeatArtist() external onlyNotContracts {
+        require(!_cryptoBeatArtists[msg.sender].joined, "CryptoBeatMembers: CryptoBeatArtist already joined");
 
-        _cryptoArtists[msg.sender].joined = true;
+        _cryptoBeatArtists[msg.sender].joined = true;
 
-        emit JoinAsCryptoArtist(msg.sender);
+        emit JoinAsCryptoBeatArtist(msg.sender);
     }
 
-    function verifyCryptoBeatmaker(address cryptoBeatmaker) external onlyAdmin {
-        require(_cryptoBeatmakers[cryptoBeatmaker].joined, "CryptoBeatMembers: CryptoBeatmaker not joined");
+    function verifyCryptoBeatBeatmaker(address cryptoBeatBeatmaker) external onlyAdmin {
+        require(_cryptoBeatBeatmakers[cryptoBeatBeatmaker].joined, "CryptoBeatMembers: CryptoBeatBeatmaker not joined");
 
-        _cryptoBeatmakers[cryptoBeatmaker].verified = true;
+        _cryptoBeatBeatmakers[cryptoBeatBeatmaker].verified = true;
 
-        emit VerifyCryptoBeatmaker(msg.sender, cryptoBeatmaker);
+        emit VerifyCryptoBeatBeatmaker(msg.sender, cryptoBeatBeatmaker);
     }
 
-    function verifyCryptoArtist(address cryptoArtist) external onlyAdmin {
-        require(_cryptoArtists[cryptoArtist].joined, "CryptoBeatMembers: CryptoArtist not joined");
+    function verifyCryptoBeatArtist(address cryptoBeatArtist) external onlyAdmin {
+        require(_cryptoBeatArtists[cryptoBeatArtist].joined, "CryptoBeatMembers: CryptoBeatArtist not joined");
 
-        _cryptoArtists[cryptoArtist].verified = true;
+        _cryptoBeatArtists[cryptoBeatArtist].verified = true;
 
-        emit VerifyCryptoArtist(msg.sender, cryptoArtist);
+        emit VerifyCryptoBeatArtist(msg.sender, cryptoBeatArtist);
     }
 
     function ban(address who) external onlyAdmin {
         _banned[who] = true;
 
         emit Ban(msg.sender, who);
+    }
+
+    modifier onlyNotContracts() {
+        require(!msg.sender.isContract(), "CryptoBeatMembers: contracts not allowed");
+        _;
     }
 }

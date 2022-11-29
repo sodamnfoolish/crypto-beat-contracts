@@ -2,10 +2,10 @@
 
 pragma solidity ^0.8.0;
 
-struct CryptoBeatInfo {
+struct CryptoBeatTokenInfo {
     string name;
     string mp3Url;
     string wavUrl;
     string trackStemsUrl;
-    bytes32 license;
+    bytes32 licenseId;
 }

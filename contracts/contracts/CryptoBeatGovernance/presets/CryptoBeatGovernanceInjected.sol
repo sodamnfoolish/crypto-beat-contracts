@@ -11,6 +11,10 @@ contract CryptoBeatGovernanceInjected is Initializable {
     uint256[50] private __gap;
 
     function __CryptoBeatGovernanceInjected_init(CryptoBeatGovernance cryptoBeatGovernance) internal onlyInitializing {
+        __CryptoBeatGovernanceInjected_init_unchained(cryptoBeatGovernance);
+    }
+
+    function __CryptoBeatGovernanceInjected_init_unchained(CryptoBeatGovernance cryptoBeatGovernance) internal onlyInitializing {
         _cryptoBeatGovernance = cryptoBeatGovernance;
     }
 

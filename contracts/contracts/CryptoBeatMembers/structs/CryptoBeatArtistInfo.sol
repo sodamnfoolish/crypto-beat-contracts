@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-struct CryptoArtistInfo {
+struct CryptoBeatArtistInfo {
     bool joined;
     bool verified;
 }

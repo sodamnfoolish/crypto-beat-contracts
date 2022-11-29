@@ -6,11 +6,15 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "../CryptoBeatMembers.sol";
 
 contract CryptoBeatMembersInjected is Initializable {
-    CryptoBeatMembers _cryptoBeatMembers;
+    CryptoBeatMembers public _cryptoBeatMembers;
 
     uint256[50] private __gap;
 
     function __CryptoBeatMembersInjected_init(CryptoBeatMembers cryptoBeatMembers) internal onlyInitializing {
+        __CryptoBeatMembersInjected_init_unchained(cryptoBeatMembers);
+    }
+
+    function __CryptoBeatMembersInjected_init_unchained(CryptoBeatMembers cryptoBeatMembers) internal onlyInitializing {
         _cryptoBeatMembers = cryptoBeatMembers;
     }
 
@@ -19,13 +23,13 @@ contract CryptoBeatMembersInjected is Initializable {
         _;
     }
 
-    modifier onlyCryptoBeatmaker() {
-        require(_cryptoBeatMembers.getCryptoBeatmakerInfo(msg.sender).joined, "CryptoBeatMembersInjected: only CryptoBeatmaker");
+    modifier onlyCryptoBeatBeatmaker() {
+        require(_cryptoBeatMembers.getCryptoBeatBeatmakerInfo(msg.sender).joined, "CryptoBeatMembersInjected: only CryptoBeatBeatmaker");
         _;
     }
 
-    modifier onlyCryptoArtist() {
-        require(_cryptoBeatMembers.getCryptoArtistInfo(msg.sender).joined, "CryptoBeatMembersInjected: only CryptoArtist");
+    modifier onlyCryptoBeatArtist() {
+        require(_cryptoBeatMembers.getCryptoBeatArtistInfo(msg.sender).joined, "CryptoBeatMembersInjected: only CryptoBeatArtist");
         _;
     }
 }
