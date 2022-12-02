@@ -18,7 +18,7 @@ contract CryptoBeatMembersInjected is Initializable {
         _cryptoBeatMembers = cryptoBeatMembers;
     }
 
-    modifier onlyNotBannedMember() {
+    modifier onlyCryptoBeatMemberNotBanned() {
         CryptoBeatMemberInfo memory cryptoBeatMemberInfo = _cryptoBeatMembers.getCryptoBeatMemberInfo(msg.sender);
 
         require(cryptoBeatMemberInfo.joined, "CryptoBeatMembersInjected: only CryptoBeatMember");
