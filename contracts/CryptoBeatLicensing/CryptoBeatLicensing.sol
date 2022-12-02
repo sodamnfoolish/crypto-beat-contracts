@@ -16,14 +16,9 @@ contract CryptoBeatLicensing is CryptoBeatGovernanceInjected {
         bytes32 cryptoBeatLicenseId,
         CryptoBeatLicenseInfo cryptoBeatLicenseInfo
     );
-    event RemoveCryptoBeatLicense(
-        address cryptoBeatAdmin,
-        bytes32 cryptoBeatLicenseId
-    );
+    event RemoveCryptoBeatLicense(address cryptoBeatAdmin, bytes32 cryptoBeatLicenseId);
 
-    function initialize(
-        CryptoBeatGovernance cryptoBeatGovernance
-    ) external initializer {
+    function initialize(CryptoBeatGovernance cryptoBeatGovernance) external initializer {
         __CryptoBeatGovernanceInjected_init(cryptoBeatGovernance);
     }
 
@@ -33,39 +28,26 @@ contract CryptoBeatLicensing is CryptoBeatGovernanceInjected {
         return _cryptoBeatLicenseInfos[cryptoBeatLicenseId];
     }
 
-    function addCryptoBeatLicense(
-        CryptoBeatLicenseInfo memory cryptoBeatLicenseInfo
-    ) external onlyCryptoBeatAdmin {
+    function addCryptoBeatLicense(CryptoBeatLicenseInfo memory cryptoBeatLicenseInfo) external onlyCryptoBeatAdmin {
         require(
             bytes(cryptoBeatLicenseInfo.name).length > 0,
             "CryptoBeatLicenses: CryptoBeatLicenseInfo name should be not empty"
         );
 
-        bytes32 cryptoBeatLicenseId = CryptoBeatLicenses.ComputeId(
-            cryptoBeatLicenseInfo
-        );
+        bytes32 cryptoBeatLicenseId = CryptoBeatLicenses.ComputeId(cryptoBeatLicenseInfo);
 
         require(
-            bytes(_cryptoBeatLicenseInfos[cryptoBeatLicenseId].name).length ==
-                0,
+            bytes(_cryptoBeatLicenseInfos[cryptoBeatLicenseId].name).length == 0,
             "CryptoBeatLicenses: CryptoBeatLicense already exist"
         );
 
         _cryptoBeatLicenseInfos[cryptoBeatLicenseId] = cryptoBeatLicenseInfo;
 
-        emit AddCryptoBeatLicense(
-            msg.sender,
-            cryptoBeatLicenseId,
-            cryptoBeatLicenseInfo
-        );
+        emit AddCryptoBeatLicense(msg.sender, cryptoBeatLicenseId, cryptoBeatLicenseInfo);
     }
 
-    function removeCryptoBeatLicense(
-        bytes32 cryptoBeatLicenseId
-    ) external onlyCryptoBeatAdmin {
-        _cryptoBeatLicenseInfos[cryptoBeatLicenseId] = _cryptoBeatLicenseInfos[
-            CryptoBeatLicenses.ZERO_LICENSE_ID
-        ];
+    function removeCryptoBeatLicense(bytes32 cryptoBeatLicenseId) external onlyCryptoBeatAdmin {
+        _cryptoBeatLicenseInfos[cryptoBeatLicenseId] = _cryptoBeatLicenseInfos[CryptoBeatLicenses.ZERO_LICENSE_ID];
 
         emit RemoveCryptoBeatLicense(msg.sender, cryptoBeatLicenseId);
     }

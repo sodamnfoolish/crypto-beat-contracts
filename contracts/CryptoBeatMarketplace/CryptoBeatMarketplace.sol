@@ -8,7 +8,12 @@ import "../CryptoBeatLicensing/presets/CryptoBeatLicensingInjected.sol";
 import "../CryptoBeatERC721/presets/CryptoBeatERC721Injected.sol";
 import "./structs/CryptoBeatTokenOnMarketplaceInfo.sol";
 
-contract CryptoBeatMarketplace is CryptoBeatGovernanceInjected, CryptoBeatMembersInjected, CryptoBeatLicensingInjected, CryptoBeatERC721Injected {
+contract CryptoBeatMarketplace is
+    CryptoBeatGovernanceInjected,
+    CryptoBeatMembersInjected,
+    CryptoBeatLicensingInjected,
+    CryptoBeatERC721Injected
+{
     mapping(uint256 => CryptoBeatTokenOnMarketplaceInfo) _cryptoBeatTokenOnMarketplaceInfos;
 
     uint256[50] private __gap;
@@ -16,18 +21,26 @@ contract CryptoBeatMarketplace is CryptoBeatGovernanceInjected, CryptoBeatMember
     event AddCryptoBeat(address cryptoBeatMember, uint256 cryptoBeatTokenId);
 
     function initialize(
-            CryptoBeatGovernance cryptoBeatGovernance, 
-            CryptoBeatMembers cryptoBeatMembers, 
-            CryptoBeatLicensing cryptoBeatLicensing, 
-            CryptoBeatERC721 cryptoBeatERC721) 
-        external initializer {
+        CryptoBeatGovernance cryptoBeatGovernance,
+        CryptoBeatMembers cryptoBeatMembers,
+        CryptoBeatLicensing cryptoBeatLicensing,
+        CryptoBeatERC721 cryptoBeatERC721
+    ) external initializer {
         __CryptoBeatGovernanceInjected_init(cryptoBeatGovernance);
         __CryptoBeatMembersInjected_init(cryptoBeatMembers);
         __CryptoBeatLicensingInjected_init(cryptoBeatLicensing);
         __CryptoBeatERC721Injected_init(cryptoBeatERC721);
     }
 
-    function addCryptoBeat(uint256 cryptoBeatTokenId) external onlyCryptoBeatMemberNotBanned onlyCryptoBeatTokenOwner(cryptoBeatTokenId) onlyExclusiveLicenseCryptoBeatToken(cryptoBeatTokenId) onlyApprovedCryptoBeatToken(cryptoBeatTokenId) {
+    function addCryptoBeat(
+        uint256 cryptoBeatTokenId
+    )
+        external
+        onlyCryptoBeatMemberNotBanned
+        onlyCryptoBeatTokenOwner(cryptoBeatTokenId)
+        onlyExclusiveLicenseCryptoBeatToken(cryptoBeatTokenId)
+        onlyApprovedCryptoBeatToken(cryptoBeatTokenId)
+    {
         _cryptoBeatERC721.transferFrom(msg.sender, address(this), cryptoBeatTokenId);
 
         _cryptoBeatTokenOnMarketplaceInfos[cryptoBeatTokenId].isOn = true;

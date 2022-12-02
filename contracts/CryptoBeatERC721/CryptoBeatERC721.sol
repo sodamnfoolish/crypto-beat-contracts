@@ -31,9 +31,7 @@ contract CryptoBeatERC721 is
         __CryptoBeatLicensingInjected_init(cryptoBeatLicensing);
     }
 
-    function getCryptoBeatTokenInfo(
-        uint256 cryptoBeatTokenId
-    ) external view returns (CryptoBeatTokenInfo memory) {
+    function getCryptoBeatTokenInfo(uint256 cryptoBeatTokenId) external view returns (CryptoBeatTokenInfo memory) {
         return _cryptoBeatTokenInfos[cryptoBeatTokenId];
     }
 }

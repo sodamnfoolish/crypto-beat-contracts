@@ -10,9 +10,7 @@ contract CryptoBeatLicensingInjected is Initializable {
 
     uint256[50] private __gap;
 
-    function __CryptoBeatLicensingInjected_init(
-        CryptoBeatLicensing cryptoBeatLicensing
-    ) internal onlyInitializing {
+    function __CryptoBeatLicensingInjected_init(CryptoBeatLicensing cryptoBeatLicensing) internal onlyInitializing {
         __CryptoBeatLicensingInjected_init_unchained(cryptoBeatLicensing);
     }
 

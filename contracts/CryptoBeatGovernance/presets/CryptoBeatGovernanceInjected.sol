@@ -10,9 +10,7 @@ contract CryptoBeatGovernanceInjected is Initializable {
 
     uint256[50] private __gap;
 
-    function __CryptoBeatGovernanceInjected_init(
-        CryptoBeatGovernance cryptoBeatGovernance
-    ) internal onlyInitializing {
+    function __CryptoBeatGovernanceInjected_init(CryptoBeatGovernance cryptoBeatGovernance) internal onlyInitializing {
         __CryptoBeatGovernanceInjected_init_unchained(cryptoBeatGovernance);
     }
 
@@ -24,10 +22,7 @@ contract CryptoBeatGovernanceInjected is Initializable {
 
     modifier onlyCryptoBeatAdmin() {
         require(
-            _cryptoBeatGovernance.hasRole(
-                msg.sender,
-                CryptoBeatGovernanceRoles.CRYPTO_BEAT_ADMIN_ROLE
-            ),
+            _cryptoBeatGovernance.hasRole(msg.sender, CryptoBeatGovernanceRoles.CRYPTO_BEAT_ADMIN_ROLE),
             "CryptoBeatGovernanceInjected: only CryptoBeatAdmin"
         );
         _;
@@ -35,10 +30,7 @@ contract CryptoBeatGovernanceInjected is Initializable {
 
     modifier onlyCryptoBeatMarketplace() {
         require(
-            _cryptoBeatGovernance.hasRole(
-                msg.sender,
-                CryptoBeatGovernanceRoles.CRYPTO_BEAT_MARKETPLACE_ROLE
-            ),
+            _cryptoBeatGovernance.hasRole(msg.sender, CryptoBeatGovernanceRoles.CRYPTO_BEAT_MARKETPLACE_ROLE),
             "CryptoBeatGovernanceInjected: only CryptoBeatMarketplace"
         );
         _;
