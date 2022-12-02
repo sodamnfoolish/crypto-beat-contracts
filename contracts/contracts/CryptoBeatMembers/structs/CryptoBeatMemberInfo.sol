@@ -2,7 +2,9 @@
 
 pragma solidity ^0.8.0;
 
-struct CryptoBeatBeatmakerInfo {
+struct CryptoBeatMemberInfo {
+    string name;
     bool joined;
     bool verified;
+    bool banned;
 }
