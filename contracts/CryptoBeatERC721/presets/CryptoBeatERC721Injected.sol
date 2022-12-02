@@ -17,4 +17,14 @@ contract CryptoBeatERC721Injected is Initializable {
     function __CryptoBeatERC721Injected_init_unchained(CryptoBeatERC721 cryptoBeatERC721) internal onlyInitializing {
         _cryptoBeatERC721 = cryptoBeatERC721;
     }
+
+    modifier onlyCryptoBeatTokenOwner(uint256 cryptoBeatTokenId) {
+        require(_cryptoBeatERC721.ownerOf(cryptoBeatTokenId) == msg.sender, "CryptoBeatERC721Injected: only CryptoBeatToken owner");
+        _;
+    }
+
+    modifier onlyExclusiveLicenseCryptoBeatToken(uint256 cryptoBeatTokenId) {
+        require(_cryptoBeatERC721.getCryptoBeatTokenInfo(cryptoBeatTokenId).licenseId == CryptoBeatLicenses.EXCLUSIVE_LICENSE_ID, "CryptoBeatERC721Injected: only CryptoBeatToken with Exclusive license");
+        _;
+    }
 }

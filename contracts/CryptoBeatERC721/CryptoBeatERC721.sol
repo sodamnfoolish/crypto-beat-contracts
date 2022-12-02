@@ -11,7 +11,7 @@ import "./structs/CryptoBeatTokenInfo.sol";
 contract CryptoBeatERC721 is ERC721Upgradeable, CryptoBeatGovernanceInjected, CryptoBeatMembersInjected, CryptoBeatLicensingInjected {
     uint256 private _amountOfCryptoBeatTokens;
 
-    mapping(uint256 => CryptoBeatTokenInfo) private _cryptoBeatTokens;
+    mapping(uint256 => CryptoBeatTokenInfo) private _cryptoBeatTokenInfos;
 
     uint256[50] private __gap;
 
@@ -22,5 +22,7 @@ contract CryptoBeatERC721 is ERC721Upgradeable, CryptoBeatGovernanceInjected, Cr
         __CryptoBeatLicensingInjected_init(cryptoBeatLicensing);
     }
 
-    
+    function getCryptoBeatTokenInfo(uint256 cryptoBeatTokenId) external view returns(CryptoBeatTokenInfo memory) {
+        return _cryptoBeatTokenInfos[cryptoBeatTokenId];
+    }
 }
