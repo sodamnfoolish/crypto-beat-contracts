@@ -18,13 +18,13 @@ contract CryptoBeatGovernanceInjected is Initializable {
         _cryptoBeatGovernance = cryptoBeatGovernance;
     }
 
-    modifier onlyAdmin() {
-        require(_cryptoBeatGovernance.hasRole(msg.sender, _cryptoBeatGovernance.ADMIN_ROLE()), "CryptoBeatGovernanceInjected: only Admin");
+    modifier onlyCryptoBeatAdmin() {
+        require(_cryptoBeatGovernance.hasRole(msg.sender, CryptoBeatGovernanceRoles.CRYPTO_BEAT_ADMIN_ROLE), "CryptoBeatGovernanceInjected: only CryptoBeatAdmin");
         _;
     }
 
     modifier onlyCryptoBeatMarketplace() {
-        require(_cryptoBeatGovernance.hasRole(msg.sender, _cryptoBeatGovernance.CRYPTO_BEAT_MARKETPLACE_ROLE()), "CryptoBeatGovernanceInjected: only CryptoBeatMarketplace");
+        require(_cryptoBeatGovernance.hasRole(msg.sender, CryptoBeatGovernanceRoles.CRYPTO_BEAT_MARKETPLACE_ROLE), "CryptoBeatGovernanceInjected: only CryptoBeatMarketplace");
         _;
     }
 }
