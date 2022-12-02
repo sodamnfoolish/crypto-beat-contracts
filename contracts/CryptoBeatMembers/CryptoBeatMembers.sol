@@ -17,18 +17,31 @@ contract CryptoBeatMembers is CryptoBeatGovernanceInjected {
     event Verify(address cryptoBeatAdmin, address cryptoBeatMember);
     event Ban(address cryptoBeatAdmin, address cryptoBeatMember);
 
-    function initialize(CryptoBeatGovernance cryptoBeatGovernance) external initializer {
+    function initialize(
+        CryptoBeatGovernance cryptoBeatGovernance
+    ) external initializer {
         __CryptoBeatGovernanceInjected_init(cryptoBeatGovernance);
     }
 
-    function getCryptoBeatMemberInfo(address cryptoBeatMember) external view returns (CryptoBeatMemberInfo memory) {
+    function getCryptoBeatMemberInfo(
+        address cryptoBeatMember
+    ) external view returns (CryptoBeatMemberInfo memory) {
         return _cryptoBeatMemberInfos[cryptoBeatMember];
     }
 
     function join() external {
-        require(!msg.sender.isContract(), "CryptoBeatMembers: contracts not allowed");
-        require(!_cryptoBeatMemberInfos[msg.sender].joined, "CryptoBeatMembers: already joined");
-        require(!_cryptoBeatMemberInfos[msg.sender].banned, "CryptoBeatMembers: banned");
+        require(
+            !msg.sender.isContract(),
+            "CryptoBeatMembers: contracts not allowed"
+        );
+        require(
+            !_cryptoBeatMemberInfos[msg.sender].joined,
+            "CryptoBeatMembers: already joined"
+        );
+        require(
+            !_cryptoBeatMemberInfos[msg.sender].banned,
+            "CryptoBeatMembers: banned"
+        );
 
         _cryptoBeatMemberInfos[msg.sender].joined = true;
 
@@ -36,7 +49,10 @@ contract CryptoBeatMembers is CryptoBeatGovernanceInjected {
     }
 
     function verify(address cryptoBeatMember) external onlyCryptoBeatAdmin {
-        require(!_cryptoBeatMemberInfos[cryptoBeatMember].banned, "CryptoBeatMembers: CryptoBeatMember banned");
+        require(
+            !_cryptoBeatMemberInfos[cryptoBeatMember].banned,
+            "CryptoBeatMembers: CryptoBeatMember banned"
+        );
 
         _cryptoBeatMemberInfos[cryptoBeatMember].verified = true;
 
@@ -44,7 +60,10 @@ contract CryptoBeatMembers is CryptoBeatGovernanceInjected {
     }
 
     function ban(address cryptoBeatMember) external onlyCryptoBeatAdmin {
-        require(!_cryptoBeatMemberInfos[cryptoBeatMember].banned, "CryptoBeatMembers: already banned");
+        require(
+            !_cryptoBeatMemberInfos[cryptoBeatMember].banned,
+            "CryptoBeatMembers: already banned"
+        );
 
         _cryptoBeatMemberInfos[cryptoBeatMember].banned = true;
 
