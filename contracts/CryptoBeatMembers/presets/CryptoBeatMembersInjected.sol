@@ -10,31 +10,19 @@ contract CryptoBeatMembersInjected is Initializable {
 
     uint256[50] private __gap;
 
-    function __CryptoBeatMembersInjected_init(
-        CryptoBeatMembers cryptoBeatMembers
-    ) internal onlyInitializing {
+    function __CryptoBeatMembersInjected_init(CryptoBeatMembers cryptoBeatMembers) internal onlyInitializing {
         __CryptoBeatMembersInjected_init_unchained(cryptoBeatMembers);
     }
 
-    function __CryptoBeatMembersInjected_init_unchained(
-        CryptoBeatMembers cryptoBeatMembers
-    ) internal onlyInitializing {
+    function __CryptoBeatMembersInjected_init_unchained(CryptoBeatMembers cryptoBeatMembers) internal onlyInitializing {
         _cryptoBeatMembers = cryptoBeatMembers;
     }
 
     modifier onlyCryptoBeatMemberNotBanned() {
-        CryptoBeatMemberInfo memory cryptoBeatMemberInfo = _cryptoBeatMembers
-            .getCryptoBeatMemberInfo(msg.sender);
+        CryptoBeatMemberInfo memory cryptoBeatMemberInfo = _cryptoBeatMembers.getCryptoBeatMemberInfo(msg.sender);
 
-        require(
-            cryptoBeatMemberInfo.joined,
-            "CryptoBeatMembersInjected: only CryptoBeatMember"
-        );
-        
-        require(
-            !cryptoBeatMemberInfo.banned,
-            "CryptoBeatMembersInjected: banned"
-        );
+        require(cryptoBeatMemberInfo.joined, "CryptoBeatMembersInjected: only CryptoBeatMember");
+        require(!cryptoBeatMemberInfo.banned, "CryptoBeatMembersInjected: banned");
         _;
     }
 }

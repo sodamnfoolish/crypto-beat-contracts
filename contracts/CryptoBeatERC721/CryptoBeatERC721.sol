@@ -8,32 +8,21 @@ import "../CryptoBeatMembers/presets/CryptoBeatMembersInjected.sol";
 import "../CryptoBeatLicensing/presets/CryptoBeatLicensingInjected.sol";
 import "./structs/CryptoBeatTokenInfo.sol";
 
-contract CryptoBeatERC721 is
-    ERC721Upgradeable,
-    CryptoBeatGovernanceInjected,
-    CryptoBeatMembersInjected,
-    CryptoBeatLicensingInjected
-{
+contract CryptoBeatERC721 is ERC721Upgradeable, CryptoBeatGovernanceInjected, CryptoBeatMembersInjected, CryptoBeatLicensingInjected {
     uint256 private _amountOfCryptoBeatTokens;
 
     mapping(uint256 => CryptoBeatTokenInfo) private _cryptoBeatTokenInfos;
 
     uint256[50] private __gap;
 
-    function initialize(
-        CryptoBeatGovernance cryptoBeatGovernance,
-        CryptoBeatMembers cryptoBeatMembers,
-        CryptoBeatLicensing cryptoBeatLicensing
-    ) external initializer {
+    function initialize(CryptoBeatGovernance cryptoBeatGovernance, CryptoBeatMembers cryptoBeatMembers, CryptoBeatLicensing cryptoBeatLicensing) external initializer {
         __ERC721_init("CryptoBeat", "CB");
         __CryptoBeatGovernanceInjected_init(cryptoBeatGovernance);
         __CryptoBeatMembersInjected_init(cryptoBeatMembers);
         __CryptoBeatLicensingInjected_init(cryptoBeatLicensing);
     }
 
-    function getCryptoBeatTokenInfo(
-        uint256 cryptoBeatTokenId
-    ) external view returns (CryptoBeatTokenInfo memory) {
+    function getCryptoBeatTokenInfo(uint256 cryptoBeatTokenId) external view returns(CryptoBeatTokenInfo memory) {
         return _cryptoBeatTokenInfos[cryptoBeatTokenId];
     }
 }
