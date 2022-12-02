@@ -17,8 +17,4 @@ contract CryptoBeatLicensingInjected is Initializable {
     function __CryptoBeatLicensingInjected_init_unchained(CryptoBeatLicensing cryptoBeatLicensing) internal onlyInitializing {
         _cryptoBeatLicensing = cryptoBeatLicensing;
     }
-
-    function _isCryptoBeatLicenseExist(bytes32 cryptoBeatLicenseId) internal view returns(bool) {
-        return bytes(_cryptoBeatLicensing.getCryptoBeatLicenseInfo(cryptoBeatLicenseId).name).length > 0;
-    }
 }
